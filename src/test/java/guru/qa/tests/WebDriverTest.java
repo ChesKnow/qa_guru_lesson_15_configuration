@@ -19,11 +19,7 @@ public class WebDriverTest {
     @BeforeAll
     static void setupClass() {
         WebDriverManager.chromedriver().setup();
-        WebDriverManager.firefoxdriver().setup();
 
-        Configuration.browser = String.valueOf(WebDriverProvider.config.getBrowserName());
-        Configuration.browserVersion = WebDriverProvider.config.getBrowserVersion();
-        Configuration.remote = String.valueOf(WebDriverProvider.config.getRemoteWebDriver());
     }
 
     @BeforeEach

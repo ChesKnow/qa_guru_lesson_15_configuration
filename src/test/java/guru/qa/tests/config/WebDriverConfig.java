@@ -12,11 +12,10 @@ public interface WebDriverConfig extends Config {
     String getBaseUrl();
 
     @Key("browserName")
-    @DefaultValue("CHROME")
-    Browser getBrowserName();
+    String getBrowserName();
 
     @Key("browserVersion")
-    @DefaultValue("100.0")
+    @DefaultValue("91.0")
     String getBrowserVersion();
 
     @Key("isRemote")
@@ -24,5 +23,5 @@ public interface WebDriverConfig extends Config {
     boolean isRemote();
 
     @Key("RemoteWebDriver")
-    URL getRemoteWebDriver();
+    String getRemoteWebDriver();
 }

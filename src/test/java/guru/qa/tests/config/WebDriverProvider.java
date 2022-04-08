@@ -3,14 +3,18 @@ package guru.qa.tests.config;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Objects;
 import java.util.function.Supplier;
 
 public class WebDriverProvider implements Supplier<WebDriver> {
 
-    public static WebDriverConfig config;
+    private final WebDriverConfig config;
 
     public WebDriverProvider() {
         this.config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
@@ -20,22 +24,27 @@ public class WebDriverProvider implements Supplier<WebDriver> {
     public WebDriver get() {
 
         WebDriver driver = createWebDriver();
+
+
+        ChromeOptions options = new ChromeOptions();
+        options.setCapability("browserName", config.getBrowserName());
+        options.setCapability("browserVersion", config.getBrowserVersion());
+        options.setCapability("isRemote", config.isRemote());
         driver.get(config.getBaseUrl());
         return driver;
     }
 
-    private WebDriver createWebDriver() {
-        if (Objects.nonNull(config.getBrowserName())) {
-            switch (config.getBrowserName()) {
-                case CHROME: {
+    private WebDriver createWebDriver() throws MalformedURLException {
+        if (config.isRemote()) {
+            switch (config.isRemote()) {
+                case false: {
                     return new ChromeDriver();}
-                case FIREFOX:{
-                    return new FirefoxDriver();}
-                default:{
-                    throw new RuntimeException("Type of browser not supported");}
+                case true:{
+                    return new RemoteWebDriver(new URL(config.getRemoteWebDriver()), options.);}
+
             }
         }
-        throw new RuntimeException("Type of browser could not be null");
 
     }
+
 }
