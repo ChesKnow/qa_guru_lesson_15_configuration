@@ -1,7 +1,10 @@
 package guru.qa.tests;
 
+import com.codeborne.selenide.Configuration;
+import guru.qa.tests.config.WebDriverConfig;
 import guru.qa.tests.config.WebDriverProvider;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.aeonbits.owner.Config;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,12 +20,17 @@ public class WebDriverTest {
     static void setupClass() {
         WebDriverManager.chromedriver().setup();
         WebDriverManager.firefoxdriver().setup();
+
+        Configuration.browser = String.valueOf(WebDriverProvider.config.getBrowserName());
+        Configuration.browserVersion = WebDriverProvider.config.getBrowserVersion();
+        Configuration.remote = String.valueOf(WebDriverProvider.config.getRemoteWebDriver());
     }
 
     @BeforeEach
     public void startDriver() {
         driver = new WebDriverProvider().get();
     }
+
 
     @AfterEach
     public void stopDriver() {

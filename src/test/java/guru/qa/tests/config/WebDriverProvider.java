@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 public class WebDriverProvider implements Supplier<WebDriver> {
 
-    private final WebDriverConfig config;
+    public static WebDriverConfig config;
 
     public WebDriverProvider() {
         this.config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
@@ -18,8 +18,7 @@ public class WebDriverProvider implements Supplier<WebDriver> {
 
     @Override
     public WebDriver get() {
-        //System.setProperty("webdriver.chrome.driver","C:/Program Files/Google/Chrome/Application/chromedriver.exe");
-        //System.setProperty("webdriver.gecko.driver","C:/Program Files/Mozilla Firefox/geckodriver.exe");
+
         WebDriver driver = createWebDriver();
         driver.get(config.getBaseUrl());
         return driver;
